@@ -4,7 +4,7 @@ import Image from "next/image";
 // =======================================================================
 export default function Home() {
   return (
-    <main className="min-h-screen md:py-10 sm:py-7 py-4 px-3">
+    <main className="min-h-screen md:py-7 sm:py-5 py-3 px-3">
       <Image src={"/login-bg.png"} className="-z-1" alt="login bg" fill />
       <div className="container-css flex flex-col md:gap-10 gap-15">
         <Image

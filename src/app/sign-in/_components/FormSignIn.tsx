@@ -10,11 +10,13 @@ import { LoginSchema } from "@/lib/Schemas/Auth/LoginSchema";
 import { LoginAction } from "@/lib/Actions/Auth/Login.action";
 import AlertMessage from "@/components/AlertMessage/AlertMessage";
 import Blur from "@/components/Blur/Blur";
+import { useRouter } from "next/navigation";
 type LoginErrors = {
   email?: string;
   password?: string;
 };
 function FormSignIn() {
+  const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [authOLoading, setAuthOLoading] = useState(false);
   const [email, setEmail] = useState("");
@@ -22,8 +24,8 @@ function FormSignIn() {
   const [serverError, setServerError] = useState("");
   const [serverSuccess, setServerSuccess] = useState("");
   const [errors, setErrors] = useState<LoginErrors>({});
-  const handleSignIn = async (e:FormEvent) => {
-    e.preventDefault()
+  const handleSignIn = async (e: FormEvent) => {
+    e.preventDefault();
     try {
       setLoading(true);
       setErrors({});
@@ -54,6 +56,7 @@ function FormSignIn() {
       });
       if (!result.success) return setServerError(result.message);
       setServerSuccess(result.message);
+      router.refresh();
     } catch (error) {
       console.log(error);
       setServerError("An error occurred while logging in. Please try again.");
@@ -69,7 +72,10 @@ function FormSignIn() {
       viewport={{ once: true }}
       className="sm:w-fit w-[90%]"
     >
-      <form onSubmit={handleSignIn} className="bg-white rounded-xl shadow-2xl border border-black/15 sm:w-100 w-full overflow-hidden relative">
+      <form
+        onSubmit={handleSignIn}
+        className="bg-white rounded-xl shadow-2xl border border-black/15 sm:w-100 w-full overflow-hidden relative"
+      >
         <div className="space-y-7 lg:p-8 p-5">
           <div className="space-y-6">
             <AuthHeader

@@ -1,10 +1,14 @@
+@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap");
 @import "tailwindcss";
 /* ======================================= */
 @layer utilities {
-  .container-css{
-    @apply max-w-290 mx-auto 
+  .container-css {
+    @apply max-w-290 mx-auto;
   }
-  .transition-css{
-    @apply transition duration-300
+  .transition-css {
+    @apply transition duration-300;
   }
+}
+.toast-font {
+  font-family: "Outfit", sans-serif;
 }

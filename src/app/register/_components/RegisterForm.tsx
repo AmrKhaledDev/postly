@@ -64,8 +64,6 @@ function RegisterForm() {
       setName("");
       setEmail("");
       setPassword("");
-      setServerError("");
-      setErrors({});
       setServerSuccess(result.message);
     } catch (error) {
       console.log(error);
