@@ -9,6 +9,7 @@ import AlertMessage from "@/components/AlertMessage/AlertMessage";
 import { RegisterSchema } from "@/lib/Schemas/Auth/Register.schema";
 import { RegisterAction } from "@/lib/Actions/Auth/Register.action";
 import AuthFormField from "@/components/AuthFormField/AuthFormField";
+import Blur from "@/components/Blur/Blur";
 // ==============================================================================
 type Errors = {
   name?: string;
@@ -81,7 +82,7 @@ function RegisterForm() {
       viewport={{ once: true }}
       className="sm:w-fit w-[90%] "
     >
-      <form className="bg-white rounded-xl shadow-2xl border border-black/15 sm:w-100 w-full overflow-hidden relative">
+      <form onSubmit={handleSignUp} className="bg-white rounded-xl shadow-2xl border border-black/15 sm:w-100 w-full overflow-hidden relative">
         <div className="space-y-7 lg:p-8 p-5">
           <div className="space-y-6">
             <AuthHeader
@@ -130,7 +131,6 @@ function RegisterForm() {
             )}
             <button
               disabled={loading || authOLoading}
-              onClick={handleSignUp}
               className="w-full hover:scale-101 disabled:bg-[#9f89f8] transition-css bg-[#7755FF] mt-5 shadow py-1.5 font-medium text-sm rounded-md text-white cursor-pointer"
             >
               {loading ? "Signing up . . ." : "Sign up"}
@@ -143,7 +143,7 @@ function RegisterForm() {
           href="/sign-in"
         />
         {(loading || authOLoading) && (
-          <span className="absolute inset-0 bg-white/45" />
+        <Blur/>
         )}
       </form>
     </motion.div>
