@@ -9,7 +9,7 @@ async function Sidebar() {
   const userSession: User | null = await GetSession();
   if (!userSession) return redirect("/");
   return (
-    <aside className="bg-white border-r border-r-gray-100 w-70 min-h-screen flex flex-col justify-between ">
+    <aside className="bg-white border-r border-r-gray-100 w-70 max-h-screen flex flex-col justify-between shrink-0 sticky top-0 ">
       <div className="space-y-3">
         <Head />
         <Nav />

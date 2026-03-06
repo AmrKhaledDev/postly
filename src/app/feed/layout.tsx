@@ -1,3 +1,5 @@
+import Feeds from "@/components/Hero/Hero";
+import RightSide from "@/components/RIghtSide/RightSide";
 import Sidebar from "@/components/Sidebar/Sidebar";
 import { Metadata } from "next";
 import React from "react";
@@ -9,9 +11,10 @@ export const metadata: Metadata = {
 };
 function layout({ children }: { children: React.ReactNode }) {
   return (
-    <div>
+    <div className="flex gap-10 bg-indigo-50 justify-between">
       <Sidebar />
-      {children}
+      <Feeds />
+      <RightSide />
     </div>
   );
 }

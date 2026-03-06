@@ -7,12 +7,14 @@ import { FaSignOutAlt } from "react-icons/fa";
 // ===============================================================
 function ButtonSignOut() {
   const [loading, setLoading] = useState(false);
+  const router = useRouter()
   const handleSignOut = async () => {
     try {
       setLoading(true);
       await signOut();
-      useRouter().refresh();
+      router.refresh()
     } catch (error) {
+      setLoading(false)
       toast.error("Logout failed", { className: "toast-font" });
     }
   };
