@@ -2,7 +2,7 @@ import { randomUUID } from "node:crypto";
 import Posts from "./_components/Posts/Posts";
 import Stories from "./_components/Stories/Stories";
 // ==========================================================================
-function Hero() {
+function Feeds() {
   const now = new Date();
   const stories = [
     {
@@ -53,6 +53,10 @@ function Hero() {
       userName: "Amr Khaled",
       userImage: "/user.jpg",
       date: new Date(now.getTime() - 2 * 60 * 1000), // من دقيقتين
+      media:
+        "https://i.pinimg.com/736x/77/22/dd/7722dd4bc23960e95ef95c68fc2462b4.jpg",
+      mediaType: "image",
+      userId: randomUUID(),
     },
     {
       id: randomUUID(),
@@ -63,6 +67,7 @@ function Hero() {
       media: "https://youtu.be/Kf3H2jcllug",
       date: new Date(now.getTime() - 2 * 60 * 1000), // من دقيقتين
       mediaType: "video",
+      userId: randomUUID(),
     },
   ];
   return (
@@ -73,4 +78,4 @@ function Hero() {
   );
 }
 
-export default Hero;
+export default Feeds;

@@ -15,8 +15,8 @@ function Stories({ stories }: { stories: any[] }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [viewStory, setViewStory] = useState<object | null>(null);
   return (
-    <Swiper slidesPerView={"auto"} spaceBetween={10} className="max-w-200">
-      <SwiperSlide style={{ width: "144px" }}>
+    <Swiper slidesPerView={"auto"} spaceBetween={10} className="flex-1">
+      <SwiperSlide style={{ maxWidth: "144px" }}>
         <div
           onClick={() => setIsModalOpen(true)}
           className="cursor-pointer hover:scale-95 transition-css active:scale-90 relative shrink-0 bg-linear-to-b from-indigo-50 to-white h-45 shadow border border-dashed border-indigo-500 rounded-lg flex flex-col items-center justify-center"
@@ -26,7 +26,7 @@ function Stories({ stories }: { stories: any[] }) {
         </div>
       </SwiperSlide>
       {stories.map((story) => (
-        <SwiperSlide key={story.id} style={{ width: "144px" }}>
+        <SwiperSlide key={story.id} style={{ maxWidth: "144px" }}>
           <div
             style={{ backgroundColor: story.bg_color && story.bg_color }}
             onClick={() => setViewStory(story)}

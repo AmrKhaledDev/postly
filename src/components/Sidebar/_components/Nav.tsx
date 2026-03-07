@@ -45,7 +45,7 @@ function Nav() {
             <Link
               href={link.href}
               className={`flex items-center gap-2 hover:text-indigo-700 capitalize font-medium hover:shadow text-[17px] tracking-[0.3px] transition-css hover:bg-gray-50 py-1.5 px-3 rounded-xl 
-                 ${pathname.startsWith(link.href) && "text-indigo-700 bg-gray-50 shadow"}`}
+                 ${pathname === link.href && "text-indigo-700 bg-gray-50 shadow"}`}
             >
               <i className="text-xl">{link.icon}</i>
               {link.linkText}

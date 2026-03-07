@@ -22,7 +22,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${outfit.className} antialiased [word-break:break-word]`}
+        className={`${outfit.className} antialiased [word-break:break-word] overflow-x-hidden`}
       >
         <Toaster position="bottom-right" />
         {children}
