@@ -1,4 +1,5 @@
 "use client";
+import { StoryType } from "@/lib/types";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { AiOutlineClose } from "react-icons/ai";
@@ -8,7 +9,7 @@ function StoryViewer({
   viewStory,
   setViewStory,
 }: {
-  viewStory: any;
+  viewStory: StoryType;
   setViewStory: any;
 }) {
   const [progress, setProgress] = useState(0);
@@ -25,11 +26,12 @@ function StoryViewer({
       });
     }, 100);
     return () => clearInterval(interval);
-  }, [viewStory,setViewStory]);
+  }, [viewStory, setViewStory]);
   return (
     <div
       style={{
-        backgroundColor: viewStory.bg_color ? viewStory.bg_color : "#000000",
+        backgroundColor:
+          viewStory.storyBg && !viewStory.media ? viewStory.storyBg : "#000000",
       }}
       className="fixed inset-0 z-50"
     >
@@ -41,14 +43,14 @@ function StoryViewer({
       </div>
       <div className="flex items-center gap-3 bg-black/45 py-2 px-6 text-white rounded absolute top-3 left-4 z-30">
         <Image
-          src={viewStory.userImage ? viewStory.userImage : "/user.jpg"}
+          src={viewStory.user.image ? viewStory.user.image : "/user.jpg"}
           alt="user image"
           width={50}
           height={50}
           className="size-10 rounded-full object-cover ring ring-white"
         />
         <h2 className="font-semibold capitalize hover:underline cursor-pointer">
-          {viewStory.userName}
+          {viewStory.user.name}
         </h2>
       </div>
       <button
@@ -57,19 +59,20 @@ function StoryViewer({
       >
         <AiOutlineClose />
       </button>
-      {viewStory.storyMedia ? (
-        viewStory.media_type === "image" ? (
-          <Image
-            src={viewStory.storyMedia}
-            alt="story image"
-            width={600}
-            height={600}
-            className="object-cover w-110 mx-auto h-screen"
-          />
+      {viewStory.media ? (
+        viewStory.mediaType === "image" ? (
+          <div className="relative mx-auto min-w-110 max-w-220 h-screen">
+            <Image
+              src={viewStory.media}
+              alt="story image"
+              fill
+              className="object-cover"
+            />
+          </div>
         ) : (
-          <div className="max-w-105 mx-auto h-screen">
+          <div className="min-w-105 mx-auto h-screen">
             <ReactPlayer
-              src={viewStory.storyMedia}
+              src={viewStory.media}
               width="100%"
               height="100%"
               controls
@@ -79,7 +82,7 @@ function StoryViewer({
         )
       ) : (
         <div className="h-screen w-full flex items-center justify-center px-5">
-          <p className="text-white text-2xl">{viewStory.storyText}</p>
+          <p className="text-white text-2xl">{viewStory.text}</p>
         </div>
       )}
     </div>

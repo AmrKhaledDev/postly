@@ -5,11 +5,16 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "**", // أي دومين
+        hostname: "**",
       },
     ],
   },
+
   reactCompiler: true,
+
+  experimental: {
+    middlewareClientMaxBodySize: "50mb",
+  },
 };
 
 export default nextConfig;

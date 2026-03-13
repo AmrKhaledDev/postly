@@ -1,35 +1,39 @@
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime.js";
 import Image from "next/image";
-import Link from "next/link";
 import { FaRegHeart } from "react-icons/fa6";
 import { FaRegComment } from "react-icons/fa6";
 import { LuShare2 } from "react-icons/lu";
 import PostMedia from "./_components/PostMedia";
+import { PostDbCacheType } from "@/lib/types";
+import Link from "next/link";
 //=============================================================================
 dayjs.extend(relativeTime);
-function PostCard({ post }: { post: any }) {
+function PostCard({ post }: { post: PostDbCacheType }) {
   return (
-    <li  className="bg-white shadow rounded-xl p-5 space-y-4">
+    <li className="bg-white shadow rounded-xl p-5 space-y-4 list-none">
       <div className="flex gap-2">
         <Image
-          src={post.userImage ? post.userImage : "/user.jpg"}
+          src={post.user.image ? post.user.image : "/user.jpg"}
           alt="user image"
           width={50}
           height={50}
           className="rounded-full object-cover size-11"
         />
         <div>
-          <h2 className="text-[18px] font-semibold capitalize">
-            {post.userName}
-          </h2>
+          <Link
+            href={`/feed/profile/${post.userId}`}
+            className="text-[18px] font-semibold capitalize hover:underline"
+          >
+            {post.user.name}
+          </Link>
           <h4 className="text-xs text-gray-400 font-normal">
-            {dayjs(post.date).fromNow()}
+            {dayjs(post.createdAt).fromNow()}
           </h4>
         </div>
       </div>
       <div className="space-y-2">
-        <p>{post.title}</p>
+        <p>{post.content}</p>
         <PostMedia post={post} />
       </div>
       <div className="flex items-center gap-5 pt-3 border-t border-t-gray-200">

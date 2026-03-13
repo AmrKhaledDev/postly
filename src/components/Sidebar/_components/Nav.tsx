@@ -4,11 +4,12 @@ import { FiMessageCircle } from "react-icons/fi";
 import { TbUsers } from "react-icons/tb";
 import { RiSearchLine } from "react-icons/ri";
 import { FiUser } from "react-icons/fi";
-import { usePathname } from "next/navigation";
+import {  usePathname } from "next/navigation";
 import { BiPlusCircle } from "react-icons/bi";
 import Link from "next/link";
+import { User } from "@prisma/client";
 // =====================================================================================
-function Nav() {
+function Nav({user}:{user:User}) {
   const pathname = usePathname();
   const links = [
     { id: "feed", linkText: "feed", href: "/feed", icon: <GoHome /> },
@@ -33,7 +34,7 @@ function Nav() {
     {
       id: "profile",
       linkText: "profile",
-      href: "/feed/profile",
+      href: `/feed/profile/${user.id}`,
       icon: <FiUser />,
     },
   ];

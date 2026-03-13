@@ -2,8 +2,15 @@
 import { HiUsers } from "react-icons/hi2";
 import { useState } from "react";
 import UserCard from "./UserCard";
+import { User } from "@prisma/client";
 // ===================================================================
-function ConnectionsTabs() {
+function ConnectionsTabs({
+  userSession,
+  allUsers,
+}: {
+  userSession: User;
+  allUsers: User[];
+}) {
   const [currentTap, setCurrentTap] = useState("followers");
   const taps = [
     { value: "followers", label: "Followers" },
@@ -65,16 +72,7 @@ function ConnectionsTabs() {
       username: "@rohayem_ahmed",
     },
   ];
-  const connections = [
-    {
-      id: crypto.randomUUID(),
-      name: "Rohayem Ahmed",
-      bio: "Sr. Odoo Functional Consultant | Certified V (16/17/18)",
-      image:
-        "https://i.pinimg.com/736x/ed/97/17/ed97179b1a21251a1b4f3c2f03cd9273.jpg",
-      username: "@rohayem_ahmed",
-    },
-  ];
+  const connections = allUsers;
   const usersMap: any = {
     followers,
     following,
@@ -100,9 +98,12 @@ function ConnectionsTabs() {
       </div>
       <div className="grid grid-cols-3 gap-3">
         {users !== undefined &&
-          users.map((user: any) => (
-            <UserCard key={user.id} user={user} tapText={currentTap} />
-          ))}
+          users.map(
+            (user: any) =>
+              user.id !== userSession.id && (
+                <UserCard key={user.id} user={user} tapText={currentTap} />
+              ),
+          )}
       </div>
     </>
   );

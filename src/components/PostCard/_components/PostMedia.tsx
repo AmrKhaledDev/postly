@@ -1,7 +1,8 @@
+import { PostDbCacheType } from "@/lib/types";
 import Image from "next/image";
 import ReactPlayer from "react-player";
 // ==================================================
-function PostMedia({post}:{post:any}) {
+function PostMedia({post}:{post:PostDbCacheType}) {
   return (
     <>
       {post.media && (

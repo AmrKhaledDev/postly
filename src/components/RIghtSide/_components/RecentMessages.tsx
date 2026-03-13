@@ -45,7 +45,7 @@ function RecentMessages() {
         {messages.map((message) => (
           <li key={message.id}>
             <Link
-              href={`/message/${message.userId}`}
+              href={`/feed/messages/${message.userId}`}
               className={`flex justify-between bg-gray-50 p-1.5 rounded relative hover:bg-indigo-100 transition-css
             ${!message.isSeen && "bg-indigo-50"}
             `}

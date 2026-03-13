@@ -3,22 +3,37 @@ import Cover from "./_components/Cover";
 import UserStats from "./_components/UserStats";
 import EditProfile from "./_components/EditProfile";
 import UserDetails from "./_components/UserDetails";
-import { GetSession } from "@/lib/GetSession";
-import { User } from "@prisma/client";
 import { redirect } from "next/navigation";
+import ProfilePosts from "./_components/ProfilePosts";
+import { prisma } from "@/lib/prisma";
 // =============================================================
-async function Profile() {
-  const userSession: User | null = await GetSession();
-  if (!userSession) return redirect("/login")
-    return (
-      <main className="flex-1 flex justify-center pt-5">
-        <div className="w-3xl rounded-lg overflow-hidden h-fit">
+async function Profile({ params }: { params: Promise<{ userId: string }> }) {
+  const { userId } = await params;
+  if (!userId) return redirect("/login");
+  const user = await prisma.user.findUnique({
+    where: {
+      id: userId,
+    },
+    include: {
+      posts: {
+        include: {
+          user: true,
+        },
+        orderBy: {
+          createdAt: "desc",
+        },
+      },
+    },
+  });
+  if (!user) return redirect("/login");
+  return (
+    <main className="flex-1 flex justify-center py-5">
+      <div className="w-3xl h-fit space-y-5">
+        <div className="shadow overflow-hidden rounded-lg h-fit">
           <Cover />
           <div className="flex gap-3 bg-white">
             <Image
-              src={
-                "https://i.pinimg.com/1200x/66/d3/e9/66d3e97f197172f39ba50247ba7232e5.jpg"
-              }
+              src={user.image || "/user.jpg"}
               alt="your image"
               width={150}
               height={150}
@@ -31,8 +46,10 @@ async function Profile() {
             </div>
           </div>
         </div>
-      </main>
-    );
+        <ProfilePosts posts={user.posts} />
+      </div>
+    </main>
+  );
 }
 
 export default Profile;

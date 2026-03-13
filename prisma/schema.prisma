@@ -6,6 +6,8 @@ datasource db {
   provider = "postgresql"
 }
 
+// =====================================================================
+
 model User {
   id            String    @id @default(cuid())
   name          String?
@@ -14,8 +16,32 @@ model User {
   image         String?
   emailVerified DateTime? @map("email_verified")
   accounts      Account[]
+  stories       Story[]
+  posts         Post[]
 
   @@map("users")
+}
+
+model Story {
+  id        String   @id @default(cuid())
+  text      String?
+  media     String?
+  mediaType String?
+  userId    String
+  storyBg   String?
+  user      User     @relation(fields: [userId], references: [id])
+  createdAt DateTime @default(now())
+  expiresAt DateTime
+}
+
+model Post {
+  id        String   @id @default(cuid())
+  content   String?
+  media     String?
+  mediaType String?
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  createdAt DateTime @default(now())
 }
 
 model Account {

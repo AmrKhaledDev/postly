@@ -9,11 +9,18 @@ import { useState } from "react";
 import CreateStoryModal from "./_components/CreateStoryModal";
 import StoryViewer from "./_components/StoryViewer";
 import ReactPlayer from "react-player";
+import { StoryType } from "@/lib/types";
 // ==========================================================================================
-function Stories({ stories }: { stories: any[] }) {
+function Stories({
+  stories,
+  userId,
+}: {
+  stories: StoryType[];
+  userId: string;
+}) {
   dayjs.extend(relativeTime);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [viewStory, setViewStory] = useState<object | null>(null);
+  const [viewStory, setViewStory] = useState<StoryType | null>(null);
   return (
     <Swiper slidesPerView={"auto"} spaceBetween={10} className="flex-1">
       <SwiperSlide style={{ maxWidth: "144px" }}>
@@ -28,28 +35,28 @@ function Stories({ stories }: { stories: any[] }) {
       {stories.map((story) => (
         <SwiperSlide key={story.id} style={{ maxWidth: "144px" }}>
           <div
-            style={{ backgroundColor: story.bg_color && story.bg_color }}
+            style={{ backgroundColor: story.storyBg && !story.media ? story.storyBg : "#000000" }}
             onClick={() => setViewStory(story)}
             className="rounded-lg select-none cursor-pointer h-45 relative shadow flex items-center justify-center overflow-hidden shrink-0 group"
           >
             <Image
-              src={story.userImage ? story.userImage : "/user.jpg"}
+              src={story.user.image ? story.user.image : "/user.jpg"}
               width={50}
               height={50}
               className="size-8 z-10 rounded-full absolute top-2 left-2 border border-white"
               alt="user image"
             />
-            {story.storyMedia ? (
-              story.media_type === "image" ? (
+            {story.media ? (
+              story.mediaType === "image" ? (
                 <Image
-                  src={story.storyMedia}
+                  src={story.media}
                   alt="story image"
                   fill
                   className="object-cover"
                 />
               ) : (
                 <ReactPlayer
-                  src={story.storyMedia}
+                  src={story.media}
                   width="100%"
                   height="100%"
                   style={{ objectFit: "cover" }}
@@ -57,11 +64,11 @@ function Stories({ stories }: { stories: any[] }) {
               )
             ) : (
               <p className="text-white line-clamp-3 text-sm px-3">
-                {story.storyText}
+                {story.text}
               </p>
             )}
             <p className="absolute bottom-1 right-1 text-white text-xs">
-              {dayjs(story.date).fromNow()}
+              {dayjs(story.createdAt).fromNow()}
             </p>
             <span className="absolute inset-0 bg-black/20 group-hover:bg-black/0 transition-css" />
           </div>
@@ -69,6 +76,7 @@ function Stories({ stories }: { stories: any[] }) {
       ))}
       {isModalOpen && (
         <CreateStoryModal
+          userId={userId}
           setIsModalOpen={setIsModalOpen}
           isModalOpen={isModalOpen}
         />
