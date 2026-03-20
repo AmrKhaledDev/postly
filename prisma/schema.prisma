@@ -9,15 +9,20 @@ datasource db {
 // =====================================================================
 
 model User {
-  id            String    @id @default(cuid())
-  name          String?
-  email         String?   @unique
-  password      String?
-  image         String?
-  emailVerified DateTime? @map("email_verified")
-  accounts      Account[]
-  stories       Story[]
-  posts         Post[]
+  id               String    @id @default(cuid())
+  name             String?
+  email            String?   @unique
+  password         String?
+  image            String?
+  location         String?
+  bio              String?
+  username         String?
+  emailVerified    DateTime? @map("email_verified")
+  accounts         Account[]
+  stories          Story[]
+  posts            Post[]
+  sentMessages     Message[] @relation("SentMessages")
+  receivedMessages Message[] @relation("ReceivedMessages")
 
   @@map("users")
 }
@@ -42,6 +47,17 @@ model Post {
   userId    String
   user      User     @relation(fields: [userId], references: [id])
   createdAt DateTime @default(now())
+}
+
+model Message {
+  id         String   @id @default(cuid())
+  content    String
+  isEdited   Boolean?
+  senderId   String
+  receiverId String
+  sender     User     @relation("SentMessages", fields: [senderId], references: [id])
+  receiver   User     @relation("ReceivedMessages", fields: [receiverId], references: [id])
+  createdAt  DateTime @default(now())
 }
 
 model Account {

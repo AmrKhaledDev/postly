@@ -1,7 +1,8 @@
+import { User } from "@prisma/client";
 import { HiOutlineLocationMarker } from "react-icons/hi";
 import { MdOutlineDateRange } from "react-icons/md";
 // =======================================================================
-function UserDetails() {
+function UserDetails({user}:{user:User}) {
   const userInformations = [
     { id: "location", icon: <HiOutlineLocationMarker size={15} />, label: "egypt" },
     {
@@ -12,10 +13,10 @@ function UserDetails() {
   ];
   return (
     <>
-      <h2 className="text-3xl font-bold">Amr Khaled</h2>
-      <h3 className="text-sm font-normal text-gray-400">@amr_khaled</h3>
+      <h2 className="text-3xl font-bold capitalize">{user.name}</h2>
+      <h3 className="text-sm font-normal text-gray-400">{user.username}</h3>
       <p className="font-semibold text-slate-600">
-        Hey there!, i am using postly
+       {user.bio}
       </p>
       <div className="flex items-center gap-3 text-gray-400">
         {userInformations.map((info) => (

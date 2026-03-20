@@ -34,13 +34,13 @@ async function Profile({ params }: { params: Promise<{ userId: string }> }) {
           <div className="flex gap-3 bg-white">
             <Image
               src={user.image || "/user.jpg"}
-              alt="your image"
+              alt="profile image"
               width={150}
               height={150}
-              className="rounded-full shrink-0 size-30 ml-5 ring-3 ring-white -mt-13 shadow-2xl object-cover"
+              className="rounded-full shrink-0 size-30 ml-5 ring-3 ring-white -mt-13 shadow-2xl object-cover bg-white"
             />
             <div className="w-full pr-5 pt-2 pb-4 relative space-y-2">
-              <UserDetails />
+              <UserDetails user={user}/>
               <UserStats />
               <EditProfile />
             </div>
