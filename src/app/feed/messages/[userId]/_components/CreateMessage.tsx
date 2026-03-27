@@ -1,10 +1,9 @@
 "use client";
 import { MessageAction } from "@/lib/Actions/Create/Message.action";
-// تم حذف useRouter لأنه لم يعد ضرورياً للتحديث اللحظي
 import { useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
 import { LuSendHorizontal } from "react-icons/lu";
-
+// ========================================================
 function CreateMessage({
   userSessionId,
   receiverId,
@@ -15,40 +14,30 @@ function CreateMessage({
   const [content, setContent] = useState("");
   const [loading, setLoading] = useState(false);
   const inputRef = useRef<HTMLInputElement | null>(null);
-
-  // عمل Focus فقط عند فتح الصفحة لأول مرة
   useEffect(() => {
     inputRef.current?.focus();
   }, []);
-
   const handleCreateMessage = async () => {
     if (!content?.trim()) {
       return toast.error("You cannot send an empty message", {
         className: "toast-font",
       });
     }
-
     try {
       setLoading(true);
-      
       const result = await MessageAction({
         content: content.trim(),
         senderId: userSessionId,
         receiverId,
         type: "create",
       });
-
       if (!result.success) {
         return toast.error(result.message || "Message failed to send", {
           className: "toast-font",
         });
       }
-
-      // مسح الحقل وإعادة التركيز عليه
       setContent("");
       inputRef.current?.focus();
-      
-      // ملاحظة: لا نحتاج router.refresh() هنا لأن Pusher سيتكفل بالتحديث
     } catch (error) {
       console.error(error);
       toast.error("Message failed to send", { className: "toast-font" });
@@ -56,7 +45,6 @@ function CreateMessage({
       setLoading(false);
     }
   };
-
   return (
     <div className="flex items-center gap-3 h-12 focus-within:ring-indigo-500 ring ring-transparent transition-all duration-200 rounded-full overflow-hidden bg-white max-w-150 mx-auto shadow">
       <input
@@ -71,7 +59,6 @@ function CreateMessage({
         placeholder="Type a message..."
         disabled={loading}
       />
-
       <button
         onClick={handleCreateMessage}
         disabled={loading || !content.trim()}

@@ -10,15 +10,19 @@ import { MdDelete, MdEdit } from "react-icons/md";
 function DropDown({
   setEditMessage,
   message,
+  senderId,
+  receiverId,
 }: {
   setEditMessage: Dispatch<SetStateAction<boolean>>;
+  senderId: string;
+  receiverId: string;
   message: Message;
 }) {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
   const handleDeleteMessage = async () => {
     setLoading(true);
-    const result = await DeleteMessageAction(message.id);
+    const result = await DeleteMessageAction(message.id ,senderId,receiverId);
     setLoading(false);
     if (!result.success && result.message)
       return toast.error(result.message, { className: "toast-font" });

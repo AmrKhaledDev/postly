@@ -3,8 +3,8 @@ import { Message } from "@prisma/client";
 import CreateMessage from "./CreateMessage";
 import MessageDesign from "./MessageDesign";
 import { useEffect, useState } from "react";
-import Pusher from "pusher-js"; // استيراد بوشر
-
+import { pusherClient } from "@/lib/pusherClient";
+// ================================================
 interface MessagesProps {
   messages: Message[];
   userSessionId: string;
@@ -12,40 +12,34 @@ interface MessagesProps {
 }
 
 function Messages({
-  messages: initialMessages, // نغير الاسم هنا لنستخدمه كقيمة أولية
+  messages: initialMessages,
   userSessionId,
   receiverId,
 }: MessagesProps) {
-  const [messages, setMessages] = useState<Message[]>(initialMessages);
   const [dropDown, setDropDown] = useState("");
+  const [messages, setMessages] = useState<Message[]>(initialMessages);
   const room = [userSessionId, receiverId].sort().join("_");
-
   useEffect(() => {
-    // 1. إعداد Pusher (استخدم مفتاحك الخاص من لوحة تحكم Pusher لاحقاً)
-    const pusher = new Pusher(process.env.NEXT_PUBLIC_PUSHER_KEY!, {
-      cluster: process.env.NEXT_PUBLIC_PUSHER_CLUSTER!,
-    });
-
-    // 2. الاشتراك في القناة (الغرفة)
-    const channel = pusher.subscribe(room);
-
-    // 3. الاستماع لحدث وصول رسالة جديدة
+    const channel = pusherClient.subscribe(room);
     channel.bind("new-message", (newMessage: Message) => {
       setMessages((prev) => {
-        // تأكد أن الرسالة ليست موجودة بالفعل (لتجنب التكرار)
         if (prev.find((m) => m.id === newMessage.id)) return prev;
         return [...prev, newMessage];
       });
     });
-
-    // 4. تنظيف الاتصال عند مغادرة الصفحة
+    channel.bind("update-message", (updatedMessage: Message) => {
+      setMessages((prev) =>
+        prev.map((m) => (m.id === updatedMessage.id ? updatedMessage : m)),
+      );
+    });
+    channel.bind("delete-message", (deleteMessage: Message) => {
+      setMessages((prev) => prev.filter((m) => m.id !== deleteMessage.id));
+    });
     return () => {
-      pusher.unsubscribe(room);
-      pusher.disconnect();
+      pusherClient.unsubscribe(room);
     };
   }, [room]);
 
-  // منطق إغلاق القائمة المنسدلة (الذي كتبته أنت)
   useEffect(() => {
     const handle = (e: MouseEvent) => {
       if (e.target instanceof Element) {
@@ -60,7 +54,7 @@ function Messages({
 
   return (
     <>
-      <div className="lg:h-152 h-130 overflow-y-auto overflow-x-hidden space-y-2 no-scrollbar">
+      <div className="lg:h-152 sm:h-130 h-135 overflow-y-auto overflow-x-hidden space-y-2 no-scrollbar">
         {messages.length > 0 &&
           messages.map((message) => (
             <MessageDesign
@@ -69,6 +63,7 @@ function Messages({
               key={message.id}
               message={message}
               userSessionId={userSessionId}
+              receiverId={receiverId}
             />
           ))}
       </div>

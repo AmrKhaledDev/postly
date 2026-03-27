@@ -2,7 +2,6 @@
 
 import { MessageAction } from "@/lib/Actions/Create/Message.action";
 import { Message } from "@prisma/client";
-import { useRouter } from "next/navigation";
 import { Dispatch, SetStateAction, useState } from "react";
 import toast from "react-hot-toast";
 import { FiEdit2 } from "react-icons/fi";
@@ -12,16 +11,19 @@ function EditMessage({
   message,
   editMessage,
   setEditMessage,
+  senderId,
+  receiverId,
 }: {
   message: Message;
   editMessage: boolean;
   setEditMessage: Dispatch<SetStateAction<boolean>>;
+  senderId: string;
+  receiverId: string;
 }) {
-  const router = useRouter();
   const [newContent, setNewContent] = useState(message.content);
   const [loading, setLoading] = useState(false);
   const handleEditMessage = async () => {
-    if(newContent === message.content) return
+    if (newContent === message.content) return;
     try {
       setLoading(true);
       if (!newContent?.trim())
@@ -32,12 +34,13 @@ function EditMessage({
         content: newContent,
         type: "edit",
         messageId: message.id,
+        senderId,
+        receiverId,
       });
       if (!result.success)
         return toast.error(result.message || "Message failed to send", {
           className: "toast-font",
         });
-      router.refresh();
     } catch (error) {
       console.log(error);
       toast.error("Message failed to send", { className: "toast-font" });
@@ -53,7 +56,10 @@ function EditMessage({
       >
         <IoIosCloseCircle />
       </button>
-      <p dir="auto" className="w-fit max-w-1/2 p-2 bg-indigo-500 text-white rounded-md font-semibold h-fit text-xl">
+      <p
+        dir="auto"
+        className="w-fit max-w-1/2 p-2 bg-indigo-500 text-white rounded-md font-semibold h-fit text-xl"
+      >
         {message.content}
       </p>
       <div className="flex absolute bottom-3 left-1/2 -translate-x-1/2 items-center gap-3 h-12 focus-within:ring-indigo-300 ring ring-transparent transition-css rounded-full overflow-hidden bg-white w-150 shadow">

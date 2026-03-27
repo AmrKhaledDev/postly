@@ -9,11 +9,13 @@ function MessageDesign({
   userSessionId,
   dropDown,
   setDropDown,
+  receiverId,
 }: {
   message: Message;
   userSessionId: string;
   dropDown: string;
   setDropDown: Dispatch<SetStateAction<string>>;
+  receiverId: string;
 }) {
   const [editMessage, setEditMessage] = useState(false);
   return (
@@ -23,7 +25,12 @@ function MessageDesign({
         className={`space-y-2 w-full ${message.senderId === userSessionId && "flex items-end flex-col pr-2"}`}
       >
         {dropDown === message.id && message.senderId === userSessionId && (
-          <DropDown setEditMessage={setEditMessage} message={message} />
+          <DropDown
+            setEditMessage={setEditMessage}
+            message={message}
+            senderId={userSessionId}
+            receiverId={receiverId}
+          />
         )}
         <p
           dir="auto"
@@ -37,6 +44,8 @@ function MessageDesign({
       </div>
       {editMessage && (
         <EditMessage
+          senderId={userSessionId}
+          receiverId={receiverId}
           message={message}
           editMessage={editMessage}
           setEditMessage={setEditMessage}

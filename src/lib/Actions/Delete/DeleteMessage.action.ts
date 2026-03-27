@@ -1,8 +1,11 @@
 "use server";
 import { prisma } from "@/lib/prisma";
+import { pusherServer } from "@/lib/pusherServer";
 // =========================================================================
 export const DeleteMessageAction = async (
   messageId: string,
+  senderId: string,
+  receiverId: string,
 ): Promise<{ success: boolean; message?: string }> => {
   if (!messageId)
     return { success: false, message: "The message is not found" };
@@ -14,11 +17,13 @@ export const DeleteMessageAction = async (
     });
     if (!message)
       return { success: false, message: "The message is not found" };
-    await prisma.message.delete({
+    const deleteMessage = await prisma.message.delete({
       where: {
         id: messageId,
       },
     });
+    const room = [senderId, receiverId].sort().join("_");
+    await pusherServer.trigger(room, "delete-message", deleteMessage);
     return { success: true };
   } catch (error) {
     console.log(error);
