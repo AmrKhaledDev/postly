@@ -46,7 +46,7 @@ function CreateMessage({
     }
   };
   return (
-    <div className="flex items-center gap-3 h-12 focus-within:ring-indigo-500 ring ring-transparent transition-all duration-200 rounded-full overflow-hidden bg-white max-w-150 mx-auto shadow">
+    <div className="flex items-center gap-3 h-12 focus-within:ring-indigo-300 ring ring-transparent transition-all duration-200 rounded-full overflow-hidden bg-white max-w-150 mx-auto shadow focus-within:max-w-170">
       <input
         ref={inputRef}
         onChange={(e) => setContent(e.target.value)}

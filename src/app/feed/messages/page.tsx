@@ -11,9 +11,8 @@ import { MdOutlineRemoveRedEye } from "react-icons/md";
 async function page() {
   const userSession = await GetSession();
   if (!userSession) return redirect("/login");
-  const followers = userSession.followers.map((f) => f.follower);
   const followings = userSession.followings.map((f) => f.following);
-  const users = [...followers, ...followings];
+  const users = [...followings];
   return (
     <main className="flex-1 min-h-screen bg-indigo-50  sm:p-5 p-3 space-y-10">
       <PageHeader title="Messages" subtitle="Talk to your friends and family" />

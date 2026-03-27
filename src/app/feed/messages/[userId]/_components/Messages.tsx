@@ -54,7 +54,7 @@ function Messages({
 
   return (
     <>
-      <div className="lg:h-152 h-133 overflow-y-auto overflow-x-hidden space-y-2 no-scrollbar">
+      <div className="h-152 overflow-y-auto overflow-x-hidden space-y-2 no-scrollbar">
         {messages.length > 0 &&
           messages.map((message) => (
             <MessageDesign
