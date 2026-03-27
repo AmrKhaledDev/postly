@@ -15,7 +15,7 @@ async function Feeds() {
   return (
     <main className="flex-1 py-10 lg:px-0 sm:px-3 px-1 space-y-10">
       <Stories stories={stories} userId={userSession.id} />
-      <Posts posts={posts} />
+      <Posts posts={posts} userSession={userSession} />
     </main>
   );
 }

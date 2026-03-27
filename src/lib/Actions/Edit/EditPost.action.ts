@@ -1,5 +1,6 @@
 "use server";
 import { prisma } from "@/lib/prisma";
+import { pusherServer } from "@/lib/pusherServer";
 import { revalidatePath } from "next/cache";
 // =======================================================
 type Data = {
@@ -23,7 +24,7 @@ export const EditPostAction = async (
         success: false,
         message: "The post that needs to be edited does not exist.",
       };
-    await prisma.post.update({
+    const postEdited = await prisma.post.update({
       where: {
         id: post.id,
       },
@@ -32,7 +33,22 @@ export const EditPostAction = async (
         media: media,
         mediaType: mediaType || post.mediaType,
       },
+      include: {
+        user: true,
+        loves: true,
+        comments: {
+          include: {
+            user: true,
+          },
+        },
+        savePosts: {
+          include: {
+            user: true,
+          },
+        },
+      },
     });
+    await pusherServer.trigger("posts-feed", "edit-post", postEdited);
     revalidatePath("/feed");
     return {
       success: true,

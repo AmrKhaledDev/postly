@@ -1,5 +1,6 @@
 "use server";
 import { prisma } from "@/lib/prisma";
+import { pusherServer } from "@/lib/pusherServer";
 import { revalidatePath } from "next/cache";
 // ==================================================
 export const DeletePostAction = async (
@@ -25,11 +26,12 @@ export const DeletePostAction = async (
       };
     if (user.id !== post.userId)
       return { success: false, message: "You cannot delete this post" };
-    await prisma.post.delete({
+    const postDeleted = await prisma.post.delete({
       where: {
         id: post.id,
       },
     });
+    await pusherServer.trigger("posts-feed", "delete-post", postDeleted);
     revalidatePath("/feed");
     return { success: true, message: "Your post has been deleted" };
   } catch (error) {
