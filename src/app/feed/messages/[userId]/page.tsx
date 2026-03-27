@@ -28,7 +28,7 @@ async function Chat({ params }: { params: Promise<{ userId: string }> }) {
   });
   if (userId === userSession.id) return redirect("/feed");
   return (
-    <main className="min-h-screen flex-1 space-y-3 pr-5 pl-4 lg:pl-0">
+    <main className="h-screen flex-1 space-y-3 pr-5 pl-4 lg:pl-0">
       <UserReceiverDetails user={receiver} />
       <Messages
         messages={messages}
