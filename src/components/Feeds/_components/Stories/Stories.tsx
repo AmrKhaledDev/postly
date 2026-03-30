@@ -25,7 +25,7 @@ function Stories({
     <Swiper
       slidesPerView={"auto"}
       spaceBetween={8}
-      className="w-full!"
+      className="w-full"
     >
       <SwiperSlide className="sm:max-w-36! max-w-25!">
         <div

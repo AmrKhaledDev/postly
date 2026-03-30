@@ -7,7 +7,7 @@ import { FaLongArrowAltLeft } from "react-icons/fa";
 import AlertMessage from "@/components/AlertMessage/AlertMessage";
 import Blur from "@/components/Blur/Blur";
 import { FormEvent, useState } from "react";
-import { ForgotPasswordAction } from "@/lib/Actions/Auth/ForgotPassword";
+import { ForgotPasswordAction } from "@/lib/Actions/Auth/ForgotPassword.action";
 // =======================================================================
 function FormForgotPassword() {
   const [email, setEmail] = useState("");
