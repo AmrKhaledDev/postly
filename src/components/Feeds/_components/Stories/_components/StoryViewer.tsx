@@ -99,7 +99,7 @@ function StoryViewer({
           )
         ) : (
           <div className="h-screen w-full flex items-center justify-center px-5">
-            <p className="text-white text-2xl font-medium text-center">
+            <p dir="auto" className="text-white text-2xl font-medium text-center">
               {viewStory.text}
             </p>
           </div>

@@ -1,12 +1,17 @@
 import PageHeader from "@/components/PageHeader/PageHeader";
 import { GetSession } from "@/lib/GetSession";
 import { User } from "@prisma/client";
+import { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { MdChatBubbleOutline } from "react-icons/md";
 import { MdOutlineRemoveRedEye } from "react-icons/md";
 // ========================================================================
+export const metadata:Metadata={
+  title:"Postly | Messages",
+  description:"Talk to your friends and family"
+}
 async function page() {
   const userSession = await GetSession();
   if (!userSession) return redirect("/login");

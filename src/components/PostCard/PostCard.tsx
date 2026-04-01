@@ -5,7 +5,7 @@ import PublisherDetails from "./_components/PublisherDetails";
 import PostContent from "./_components/PostContent";
 import CreateComment from "./_components/CreateComment";
 import { useEffect, useRef, useState } from "react";
-import Comments from "./_components/Comments";
+import Comments from "./_components/Comments/Comments";
 import PostFooterActions from "./_components/PostFooterActions/PostFooterActions";
 //=============================================================================
 function PostCard({
@@ -56,7 +56,9 @@ function PostCard({
             inputRef={inputRef}
             postId={post.id}
           />
-          {post.comments.length > 0 && showComments && <Comments post={post} />}
+          {post.comments.length > 0 && showComments && (
+            <Comments post={post} userSessionId={userSession.id} />
+          )}
         </div>
       )}
     </li>

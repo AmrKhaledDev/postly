@@ -4,7 +4,22 @@ import PostComposer from "../../_components/PostComposer";
 import { redirect } from "next/navigation";
 import { GetSession } from "@/lib/GetSession";
 import { prisma } from "@/lib/prisma";
+import { Metadata } from "next";
 // ===========================================================================================
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ postId: string }>;
+}): Promise<Metadata> {
+  const { postId } = await params;
+  const post = await prisma.post.findUnique({
+    where: {
+      id: postId,
+    },
+  });
+  if (!post) return { title: "No Post Found" };
+  return { title: post.content && post.content, description: "" };
+}
 async function EditPost({ params }: { params: Promise<{ postId: string }> }) {
   const { postId } = await params;
   if (!postId) return redirect("/feed");

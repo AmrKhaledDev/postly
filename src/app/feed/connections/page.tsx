@@ -3,7 +3,12 @@ import Stats from "./_components/Stats";
 import ConnectionsTabs from "./_components/ConnectionsTabs";
 import { GetSession } from "@/lib/GetSession";
 import { redirect } from "next/navigation";
+import { Metadata } from "next";
 // ===========================================================================
+export const metadata:Metadata={
+  title:"Postly | Connections",
+  description:"Manage your network and discover new connections"
+}
 async function Connections() {
   const userSession = await GetSession();
   if (!userSession) return redirect("/login");

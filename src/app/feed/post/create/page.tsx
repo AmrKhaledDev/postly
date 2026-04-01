@@ -3,7 +3,12 @@ import { GetSession } from "@/lib/GetSession";
 import { redirect } from "next/navigation";
 import UserDetails from "../_components/UserDetails";
 import PostComposer from "../_components/PostComposer";
+import { Metadata } from "next";
 // ===================================================================================================
+export const metadata: Metadata = {
+  title: "Postly | Create Post",
+  description: "Share your thoughts and opinions with everyone",
+};
 async function CreatePost() {
   const userSession = await GetSession();
   if (!userSession) return redirect("/login");

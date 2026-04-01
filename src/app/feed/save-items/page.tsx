@@ -2,7 +2,13 @@ import PageHeader from "@/components/PageHeader/PageHeader";
 import { GetSession } from "@/lib/GetSession";
 import { redirect } from "next/navigation";
 import ItemCard from "./_components/ItemCard";
+import { Metadata } from "next";
 // ==============================================================================
+export const metadata: Metadata = {
+  title: "Postly | Save Items",
+  description:
+    "Save the posts you like and they will appear here for quick access",
+};
 async function SavePosts() {
   const userSession = await GetSession();
   if (!userSession) return redirect("/login");

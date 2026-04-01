@@ -6,7 +6,22 @@ import ProfilePosts from "./_components/ProfilePosts";
 import { prisma } from "@/lib/prisma";
 import { GetSession } from "@/lib/GetSession";
 import SmallUserImage from "./_components/SmallUserImage";
+import { Metadata } from "next";
 // =============================================================
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ userId: string }>;
+}): Promise<Metadata> {
+  const { userId } = await params;
+  const user = await prisma.user.findUnique({
+    where: {
+      id: userId,
+    },
+  });
+  if (!user) return { title: "No User Found" };
+  return { title: user.name, description: user.bio };
+}
 async function Profile({ params }: { params: Promise<{ userId: string }> }) {
   const userSession = await GetSession();
   if (!userSession) return redirect("/login");
