@@ -39,22 +39,22 @@ async function page() {
               key={user.id}
               className="shadow bg-white sm:p-5 p-3 rounded-md flex items-center justify-between gap-5"
             >
-              <div className="flex sm:gap-3 gap-2">
+              <div className="flex gap-2 items-center">
                 <Image
                   src={user.image ? user.image : "/user.jpg"}
                   alt="user image"
                   width={50}
                   height={50}
-                  className="object-cover rounded-full sm:size-15 size-10 shrink-0"
+                  className="object-cover rounded-full sm:size-12 size-10 shrink-0"
                 />
                 <div>
-                  <h3 className="font-bold text-[18px] text-slate-700 capitalize">
+                  <h3 className="font-bold sm:text-[18px] text-slate-700 capitalize">
                     {user.name}
                   </h3>
                   <h4 className="text-gray-400 font-normal text-xs">
                     {user.username}
                   </h4>
-                  <p className="sm:line-clamp-2 line-clamp-1 text-sm text-gray-500">
+                  <p className="sm:line-clamp-2 line-clamp-1 sm:text-sm text-gray-500 text-xs">
                     {user.bio}
                   </p>
                 </div>

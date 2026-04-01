@@ -36,6 +36,11 @@ export const CreateStoryAction = async (
       };
     if (text && text.trim().length < 1 && !media)
       return { success: false, message: "You cannot create an empty story" };
+    if (text && text.trim().length > 550)
+      return {
+        success: false,
+        message: "The text should not exceed 550 characters",
+      };
     await prisma.story.create({
       data: {
         userId: user.id,

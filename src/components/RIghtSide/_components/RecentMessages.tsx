@@ -44,7 +44,7 @@ async function RecentMessages() {
                       className="size-9 object-cover shrink-0 rounded-full"
                     />
                     <div className="w-full">
-                      <h2 className="text-sm font-semibold">
+                      <h2 className="text-sm font-semibold line-clamp-1 capitalize">
                         {message.sender.name}
                       </h2>
                       <p className="text-gray-600 text-[13px]">
@@ -53,7 +53,7 @@ async function RecentMessages() {
                     </div>
                   </div>
                   <div className="flex flex-col items-end gap-1.5">
-                    <h3 className="text-xs text-gray-400 font-normal ">
+                    <h3 className="text-[10px] text-gray-400 font-normal ">
                       {dayjs(message.createdAt).fromNow()}
                     </h3>
                     {/* {!message.isSeen && (

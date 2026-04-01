@@ -11,6 +11,10 @@ export default proxy(async (req: NextRequest) => {
     return NextResponse.redirect(new URL("/feed", req.nextUrl.origin));
   if (pathname.startsWith("/feed") && !userSession)
     return NextResponse.redirect(new URL("/", req.nextUrl.origin));
+  if (pathname.includes("/reset-password") && userSession)
+    return NextResponse.redirect(new URL("/feed", req.nextUrl.origin));
+  if (pathname.includes("/forgot-password") && userSession)
+    return NextResponse.redirect(new URL("/feed", req.nextUrl.origin));
 });
 export const config = {
   matchers: ["/", "/sign-in", "/register", "/feed"],

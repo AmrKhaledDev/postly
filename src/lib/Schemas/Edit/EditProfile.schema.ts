@@ -7,7 +7,7 @@ export const EditProfileSchema = z.object({
   fullName: z
     .string({ message: "Full name is required" })
     .min(2, { message: "Full name must be at least 2 characters" })
-    .max(30, { message: "Full name must be less than 30 characters" }),
+    .max(20, { message: "Full name must be less than 20 characters" }),
 
   username: z
     .string()

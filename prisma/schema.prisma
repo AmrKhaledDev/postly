@@ -15,7 +15,7 @@ model User {
   image            String?
   cover            String?
   location         String?
-  bio              String?
+  bio              String?    @default("Hey there! am using postly")
   username         String?    @unique
   emailVerified    DateTime?  @map("email_verified")
   accounts         Account[]

@@ -1,3 +1,4 @@
+"use client";
 import { User } from "@prisma/client";
 import { HiOutlineLocationMarker } from "react-icons/hi";
 import { MdOutlineDateRange } from "react-icons/md";
@@ -7,6 +8,9 @@ import ButtonFolllow from "@/app/feed/profile/[userId]/_components/ButtonFolllow
 import { UserWithRelations } from "@/lib/types";
 import { RiSendPlaneFill } from "react-icons/ri";
 import Link from "next/link";
+import { useState } from "react";
+import { FaRegEdit } from "react-icons/fa";
+import EditProfile from "./EditProfile/EditProfile";
 // =======================================================================
 dayjs.extend(relativeTime);
 function UserDetails({
@@ -28,9 +32,20 @@ function UserDetails({
       label: `Joined ${dayjs(user.createdAt).fromNow()}`,
     },
   ];
+  const [isEditProfile, setIsEditProfile] = useState(false);
   return (
     <>
-      <h2 className="lg:text-3xl text-2xl font-bold capitalize">{user.name}</h2>
+      <div className="w-full flex justify-between gap-3">
+        <h2 className="lg:text-3xl sm:text-2xl text-xl font-bold capitalize">
+          {user.name}
+        </h2>
+        <button
+          onClick={() => setIsEditProfile(true)}
+          className="flex shrink-0 h-fit items-center border border-gray-100 rounded-md py-2 px-4 font-semibold text-slate-500 hover:shadow transition-css cursor-pointer gap-1.5 lg:text-[15px] sm:text-sm text-xs"
+        >
+          <FaRegEdit className="sm:size-5 size-4" /> Edit
+        </button>
+      </div>
       {user.id !== userSession.id && (
         <div className="flex items-center gap-2 flex-wrap">
           <ButtonFolllow user={user} userSession={userSession} />
@@ -45,7 +60,9 @@ function UserDetails({
       {user.username && (
         <h3 className="text-sm font-normal text-gray-400">@{user.username}</h3>
       )}
-      <p className="font-semibold text-slate-600 sm:text-[15px] text-sm">{user.bio}</p>
+      <p className="font-semibold text-slate-600 sm:text-[15px] text-sm">
+        {user.bio}
+      </p>
       <div className="flex items-center gap-3 text-gray-400">
         {userInformations.map(
           (info) =>
@@ -60,6 +77,12 @@ function UserDetails({
         )}
       </div>
       <span className="w-full h-0.5 bg-gray-200 opacity-20 block mt-3" />
+      {isEditProfile && (
+        <EditProfile
+          userSession={userSession}
+          setIsEditProfile={setIsEditProfile}
+        />
+      )}
     </>
   );
 }

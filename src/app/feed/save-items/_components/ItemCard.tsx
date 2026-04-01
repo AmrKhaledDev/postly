@@ -40,7 +40,7 @@ function ItemCard({
     router.refresh();
   };
   return (
-    <li className="p-3 bg-white rounded-md space-y-2 h-fit relative cursor-pointer hover:-translate-y-3 transition-css">
+    <li className="p-3 bg-white rounded-md space-y-2 h-fit relative cursor-pointer hover:bg-gray-50 shadow transition-css">
       <div onClick={() => router.push(`/feed/post/${item.post.id}`)}>
         <div className="flex gap-2">
           <Image
@@ -93,7 +93,7 @@ function ItemCard({
       <button
         disabled={loading}
         onClick={handleDeletePostFromSaveItem}
-        className="absolute transition-css active:scale-90 hover:scale-105 top-1 right-1 text-green-500 text-[17px] cursor-pointer"
+        className="absolute transition-css active:scale-90 hover:scale-110 top-1 right-1 text-green-500 text-[17px] cursor-pointer"
       >
         <IoBookmarks />
       </button>

@@ -30,7 +30,7 @@ export const MessageAction = async (
       });
       await pusherServer.trigger(room, "new-message", newMessage);
     } else if (type === "edit") {
-      if (!messageId) return { success: false, message: "Message ID missing" };
+      if (!messageId) return { success: false, message: "Message not found" };
       const updateMessage = await prisma.message.update({
         where: { id: messageId },
         data: { content },
@@ -41,6 +41,6 @@ export const MessageAction = async (
     return { success: true };
   } catch (error) {
     console.error("Pusher or Prisma Error:", error);
-    return { success: false, message: "Message action failed" };
+    return { success: false, message: "Message failed send" };
   }
 };

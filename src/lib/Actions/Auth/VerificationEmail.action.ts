@@ -1,22 +1,14 @@
 "use server";
 import { prisma } from "@/lib/prisma";
-import { ResetPasswordSchema } from "@/lib/Schemas/Auth/ResetPasswordSchema";
-import bcrypt from "bcryptjs";
 import { createHash } from "node:crypto";
 // ==================================
-export const ResetPasswordAction = async (
-  verifyToken: string,
-  newPassword: string,
-  confirmPassword: string,
+export const VerificationAction = async (
+  verificationToken: string,
 ): Promise<{ success: boolean; message: string }> => {
   try {
-    const validation = ResetPasswordSchema.safeParse({
-      newPassword,
-      confirmPassword,
-    });
-    if (!validation.success)
-      return { success: false, message: validation.error.issues[0].message };
-    const hashedToken = createHash("sha256").update(verifyToken).digest("hex");
+    const hashedToken = createHash("sha256")
+      .update(verificationToken)
+      .digest("hex");
     const token = await prisma.verificationToken.findUnique({
       where: {
         token: hashedToken,
@@ -25,7 +17,7 @@ export const ResetPasswordAction = async (
     if (!token)
       return {
         success: false,
-        message: "Your verification code is not found",
+        message: "Invalid verification link or code",
       };
     const isExpired = token.expires < new Date();
     if (isExpired) {
@@ -34,27 +26,29 @@ export const ResetPasswordAction = async (
           token: token.token,
         },
       });
-      return { success: false, message: "Your verification code has expired" };
+      return { success: false, message: "This verification link has expired" };
     }
     const user = await prisma.user.findUnique({
       where: {
         email: token.identifier,
       },
+      select: { id: true, emailVerified: true },
     });
     if (!user)
       return {
         success: false,
         message:
-          "Your password cannot be changed because your account is not available on our servers",
+          "Your email verification failed. Please re-create your account again",
       };
-    const hashedPassword = await bcrypt.hash(newPassword, 12);
+    if (user.emailVerified)
+      return { success: true, message: "Your email is already verified" };
     await prisma.$transaction([
       prisma.user.update({
         where: {
-          email: user.email,
+          id: user.id,
         },
         data: {
-          password: hashedPassword,
+          emailVerified: new Date(),
         },
       }),
       prisma.verificationToken.delete({
@@ -65,10 +59,13 @@ export const ResetPasswordAction = async (
     ]);
     return {
       success: true,
-      message: "The password has been successfully changed",
+      message: "Your email has been successfully verified",
     };
   } catch (error) {
     console.log(error);
-    return { success: false, message: "Password cannot be changed" };
+    return {
+      success: false,
+      message: "We couldn't verify your email. Please sign up again",
+    };
   }
 };

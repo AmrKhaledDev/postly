@@ -1,12 +1,11 @@
-import Image from "next/image";
 import Cover from "./_components/Cover";
 import UserStats from "./_components/UserStats";
-import EditProfile from "./_components/EditProfile/EditProfile";
 import UserDetails from "./_components/UserDetails";
 import { redirect } from "next/navigation";
 import ProfilePosts from "./_components/ProfilePosts";
 import { prisma } from "@/lib/prisma";
 import { GetSession } from "@/lib/GetSession";
+import SmallUserImage from "./_components/SmallUserImage";
 // =============================================================
 async function Profile({ params }: { params: Promise<{ userId: string }> }) {
   const userSession = await GetSession();
@@ -76,17 +75,10 @@ async function Profile({ params }: { params: Promise<{ userId: string }> }) {
         <div className="shadow overflow-hidden rounded-lg h-fit">
           <Cover user={user} />
           <div className="flex gap-3 bg-white">
-            <Image
-              src={user.image || "/user.jpg"}
-              alt="profile image"
-              width={150}
-              height={150}
-              className="rounded-full shrink-0 lg:size-30 sm:size-25 size-20 sm:ml-5 ml-2 ring-3 ring-white sm:-mt-13 -mt-11 shadow-2xl object-cover bg-white"
-            />
+            <SmallUserImage user={user} />
             <div className="w-full sm:pr-5 pr-3 pt-2 sm:pb-4 pb-3 relative space-y-2">
               <UserDetails user={user} userSession={userSession} />
               <UserStats user={user} />
-              {userSession.id === user.id && <EditProfile userSession={user} />}
             </div>
           </div>
         </div>

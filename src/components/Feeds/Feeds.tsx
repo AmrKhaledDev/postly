@@ -13,7 +13,7 @@ async function Feeds() {
   const stories = [...userSession.stories, ...followingsStories];
   const posts = await getPosts();
   return (
-    <main className="flex-1 min-w-0 py-10 lg:px-0 px-3 flex flex-col gap-10">
+    <main className="flex-1 min-w-0 md:py-10 py-5 lg:px-0 px-3 flex flex-col gap-10">
       <Stories stories={stories} userId={userSession.id} />
       <Posts posts={posts} userSession={userSession} />
     </main>

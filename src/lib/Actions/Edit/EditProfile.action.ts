@@ -45,7 +45,7 @@ export const EditProfileAction = async (
       },
     });
     revalidatePath("/feed");
-    revalidatePath("/feed/connections");
+    revalidatePath("/feed/discover");
     return {
       success: true,
       message: "Your profile has been successfully edited",

@@ -51,6 +51,9 @@ function StoryContent({
           placeholder="What's on your mind?"
         />
       )}
+      <span className="absolute bottom-2 left-1 text-xs font-semibold">
+        Characters : {text.trim().length}
+      </span>
     </div>
   );
 }
