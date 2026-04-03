@@ -7,6 +7,7 @@ import { prisma } from "@/lib/prisma";
 import { GetSession } from "@/lib/GetSession";
 import SmallUserImage from "./_components/SmallUserImage";
 import { Metadata } from "next";
+
 // =============================================================
 export async function generateMetadata({
   params,
