@@ -13,7 +13,7 @@ const nextConfig: NextConfig = {
   reactCompiler: true,
 
   experimental: {
-    middlewareClientMaxBodySize: "50mb",
+    proxyClientMaxBodySize: "50mb",
   },
 };
 
