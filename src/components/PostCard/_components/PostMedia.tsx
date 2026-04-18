@@ -13,7 +13,7 @@ function PostMedia({post}:{post:PostDbCacheType}) {
               alt="post media"
               width={600}
               height={600}
-              className="w-full object-cover rounded max-h-100"
+              className="max-h-120 rounded w-100 mx-auto object-cover"
             />
           )}
           {post.mediaType === "video" && (

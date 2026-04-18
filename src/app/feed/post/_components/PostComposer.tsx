@@ -107,7 +107,7 @@ function PostComposer({
                 src={mediaPreview}
                 width={500}
                 height={500}
-                className="object-cover w-full max-h-60 rounded-md"
+                className="object-cover w-100 max-h-110 mx-auto rounded-md"
                 alt="asf"
               />
             )}

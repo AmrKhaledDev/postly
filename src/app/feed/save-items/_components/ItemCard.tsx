@@ -58,11 +58,11 @@ function ItemCard({
               {item.user.name}
             </Link>
             <h3 className="font-normal text-[11px] text-gray-500">
-              {dayjs(item.post.createdAt).fromNow()}
+              {dayjs(item.createdAt).fromNow()}
             </h3>
           </div>
         </div>
-        <div className="space-y-1">
+        <div className="space-y-1 mt-2">
           <p dir="auto" className="text-sm line-clamp-1">
             {item.post.content}
           </p>
